@@ -1,0 +1,37 @@
+---
+# tasks file for monit
+- name: install monit
+  apt:
+      name: monit
+      state: present
+      update_cache: yes
+
+- name: copy monit configuration files
+  template:
+      src: "{{ item }}"
+      dest: "/etc/monit/conf.d/{{item}}"
+      mode: "0700"
+      force: yes
+  with_items:
+    - "00-enable-httpd-interface.j2"
+    - "00-set-alertmail.j2"
+    - "00-smtp-config.j2"
+    - "check-zpool-capacity.j2"
+    - "check-fs-usage.j2"
+  notify: restart monit
+
+- name: copy monit scripts
+  copy:
+    src: "{{ item }}"
+    dest: /usr/local/bin/{{item}}
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - "monit-check-zpool-capacity"
+  notify: restart monit
+
+- name: ensure monit is enabled
+  service:
+    name: monit
+    state: started

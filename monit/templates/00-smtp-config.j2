@@ -1,0 +1,3 @@
+set mailserver {{ monit_mailserver }} port {{ monit_mailserver_port }}
+  username "{{ monit_mailserver_username }}" password "{{ monit_mailserver_username_password }}"
+  using tlsv1

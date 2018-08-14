@@ -1,0 +1,32 @@
+# {{ ansible_managed }}
+{% if monit_check_filesystem_enabled %}
+{% for path in monit_check_filesystem_path %}
+check device fs-{{ loop.index }}-85 with path {{ path }}
+      alert sistemas@emergya.com with mail-format {
+                subject: [Alertas] $HOST rootfs capacity is over 85%
+                message: Monit $ACTION $SERVICE at $DATE on $HOST:
+                         $DESCRIPTION.
+
+You should be thinking to BUY some extra disk space :)
+
+Yours sincerely,
+monit
+      }
+      if space usage > 85% then alert
+
+check device fs-{{ loop.index }}-95 with path {{ path }}
+      alert sistemas@emergya.com with mail-format {
+                subject: [Alertas] $HOST rootfs capacity is over 95%
+                message: Monit $ACTION $SERVICE at $DATE on $HOST:
+                         $DESCRIPTION.
+
+You should be thinking to INSTALL some extra disk space :)
+
+Yours sincerely,
+monit
+      }
+      if space usage > 95% then alert
+{% endfor %}
+{% else %}
+# No fs check
+{% endif %}
