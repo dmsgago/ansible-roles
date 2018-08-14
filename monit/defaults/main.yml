@@ -31,3 +31,5 @@ monit_check_umount_filesystem_enabled: False
 monit_check_umount_filesystem_percentage: 80
 monit_check_umount_filesystem_path:
   - "/var/lib/mysql"
+# fail-to-ban
+monit_fail_to_ban_enabled: False

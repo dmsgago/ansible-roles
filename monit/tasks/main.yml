@@ -19,6 +19,7 @@
     - "check-zpool-capacity.j2"
     - "check-fs-usage.j2"
     - "check-umount-fs-usage.j2"
+    - "fail-to-ban.j2"
   notify: restart monit
 
 - name: copy monit scripts
